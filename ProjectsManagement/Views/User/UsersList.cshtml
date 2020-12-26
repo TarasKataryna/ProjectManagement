@@ -1,0 +1,22 @@
+﻿@using Common.Models
+@{
+	ViewData["Title"] = "AllUsers";
+}
+
+<ul class="list-group">
+	@{
+		foreach (UserModel item in @Model)
+		{
+			<li class="list-group-item">
+				<div style="display: inline !important">
+					<div style="width: 80%; display: inline-block">
+						<span >@item.Login</span>
+					</div>
+					<span style="width: 20%">
+						<a class="btn btn-primary" asp-controller="User" asp-action="UserLogs" asp-route-userId="@item.Id">User Logs</a>
+					</span>
+				</div>
+			</li>
+		}
+	}
+</ul>

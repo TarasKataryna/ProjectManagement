@@ -1,0 +1,58 @@
+﻿@using Common.Models
+@{
+	ViewData["Title"] = "Projects";
+}
+
+@if (User.IsInRole("Admin"))
+{
+	<div>
+		<button class="btn btn-primary" >Add project</button>
+	</div>
+}
+@if (@Model.Count > 0)
+{
+	<ul class="list-group">
+		@{
+			foreach (ProjectModel item in @Model)
+			{
+				<li class="list-group-item">
+					<div style="display: inline !important">
+						@if (@User.IsInRole("Admin"))
+						{
+							<div style="width: 25%; display: inline-block">
+								<span>@item.ProjectName</span>
+							</div>
+							<div style="width: 25%; display: inline-block">
+								<span>@item.ProjectComplexityType</span>
+							</div>
+							<div style="width: 25%; display: inline-block">
+								<span>@item.PlannedDuration</span>
+							</div>
+							<div style="width: 25%; display: inline-block">
+								<span>@item.OrderName</span>
+							</div>
+						}
+						else
+						{
+							<div style="width: 40%; display: inline-block">
+								<span>@item.ProjectName</span>
+							</div>
+							<div style="width:30%; display: inline-block">
+								<span>@item.ProjectComplexityType</span>
+							</div>
+							<div style="width: 25%; display: inline-block">
+								<a class="btn btn-primary">Log Time</a>
+							</div>
+						}
+					</div>
+				</li>
+			}
+		}
+	</ul>
+}
+else
+{
+	<div style="margin-top: 50px; text-align: center ">
+		<h2>There are no projects yet.</h2>
+	</div>
+}

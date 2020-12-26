@@ -1,0 +1,42 @@
+﻿@using Common.Models
+@{
+	ViewData["Title"] = "Orders";
+}
+
+
+<div>
+	<button class="btn btn-primary">Add order</button>
+</div>
+
+@if (@Model.Count > 0)
+{
+	<ul class="list-group">
+		@{
+			foreach (OrderModel item in @Model)
+			{
+				<li class="list-group-item">
+					<div style="display: inline !important">
+						<div style="width: 25%; display: inline-block">
+							<span>@item.OrderName</span>
+						</div>
+						<div style="width: 25%; display: inline-block">
+							<span>@item.CustomerName</span>
+						</div>
+						<div style="width: 25%; display: inline-block">
+							<span>@item.CategoryType</span>
+						</div>
+						<div style="width: 25%; display: inline-block">
+							<span>@item.MonthlyCost</span>
+						</div>
+					</div>
+				</li>
+			}
+		}
+	</ul>
+}
+else
+{
+	<div style="margin-top: 50px; text-align: center ">
+		<h2>There are no orders yet.</h2>
+	</div>
+}
