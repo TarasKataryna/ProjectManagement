@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Common.Models;
 using DAL.Data;
+using DAL.Models;
 using Services.Interfaces;
 
 namespace Services.Services
@@ -38,6 +40,27 @@ namespace Services.Services
 			return res;
 		}
 
+		public bool CreateOrder(OrderModel model)
+		{
+			var orderCategory = _context.OrderCategories.FirstOrDefault(item => item.OrderCategoryPK == model.CategoryTypePK);
+			var customer = _context.Customers.FirstOrDefault(item => item.CustomerPK == model.CustomerPK);
+
+			var order = new Order
+			{
+				OrderName = model.OrderName,
+				Category = orderCategory,
+				Customer = customer,
+				InitialOrderCost = model.InitialOrderCost,
+				MonthlyCost = model.MonthlyCost
+			};
+
+			var result = _context.Orders.Add(order);
+
+			_context.SaveChanges();
+
+			return result != null;
+		}
+
 		public IEnumerable<CustomerModel> GetCustomers()
 		{
 			var res = _context.Customers.Select(item => new CustomerModel
@@ -49,6 +72,18 @@ namespace Services.Services
 			return res;
 		}
 
-		
+		public async Task<bool> CreateCustomer(CustomerModel model)
+		{
+			var customer = new Customer
+			{
+				CustomerName = model.CustomerName
+			};
+
+			var result = await _context.Customers.AddAsync(customer);
+
+			_context.SaveChanges();
+
+			return result != null;
+		}
 	}
 }

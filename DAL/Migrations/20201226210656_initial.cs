@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace DAL.Migrations
 {
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -118,7 +118,8 @@ namespace DAL.Migrations
                     OrderName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CustomerPK = table.Column<int>(type: "int", nullable: true),
                     InitialOrderCost = table.Column<double>(type: "float", nullable: false),
-                    MonthlyCost = table.Column<double>(type: "float", nullable: false)
+                    MonthlyCost = table.Column<double>(type: "float", nullable: false),
+                    CategoryOrderCategoryPK = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -128,6 +129,12 @@ namespace DAL.Migrations
                         column: x => x.CustomerPK,
                         principalTable: "Customers",
                         principalColumn: "CustomerPK",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Orders_OrderCategories_CategoryOrderCategoryPK",
+                        column: x => x.CategoryOrderCategoryPK,
+                        principalTable: "OrderCategories",
+                        principalColumn: "OrderCategoryPK",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -360,22 +367,31 @@ namespace DAL.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "d66a111e-4d2e-4764-9696-b746109a81b4", "e45ead5c-29e8-43bd-bd4e-59fede94ae82", "Admin", null });
-
-            migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "3b5a92d3-052a-499c-92a4-f6ef631a8578", "98166429-2e54-4861-9928-c3c55b7c7bfe", "User", null });
+                values: new object[,]
+                {
+                    { "1ba68bf3-7f4c-45a6-ab5b-7e9be54e3e47", "fdd41c7d-4879-42d3-a5eb-dc2f28921cd6", "Admin", "ADMIN" },
+                    { "2a7f0297-c806-4192-95a4-f3be699c4420", "c066d625-dcfc-4e03-a036-045f336c0dae", "User", "USER" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "IsAdmin", "LastName", "LockoutEnabled", "LockoutEnd", "Login", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
-                values: new object[] { "9996f9ca-3d8f-4989-a6b2-d7614cd5417d", 0, "c4316b18-195d-49cd-8a8c-6ca8591f467d", "User", "tarikkataryna1999@gmail.com", false, "Taras", null, "Kataryna", false, null, "tarikkataryna1999@gmail.com", null, null, "AQAAAAEAACcQAAAAELckq74cbWGV8J7+9TpkzIV77AVNq7Uk3Jrcr+PLSlPiVm0g9APTjrl+VGvuALIwJA==", null, false, "974efafe-4e25-46bf-86f9-331aa00573c5", false, "tarikkataryna1999@gmail.com" });
+                values: new object[] { "e7c5d9a6-2584-4ace-86df-559a8480f978", 0, "a50de59b-eb36-4dba-a643-fbd4cf5da871", "User", "tarikkataryna1999@gmail.com", false, "Taras", null, "Kataryna", false, null, "tarikkataryna1999@gmail.com", null, "TARIKKATARYNA1999@GMAIL.COM", "AQAAAAEAACcQAAAAEKUd9GKe1SPvC/C0MqJrRy0/Zi4is46Hm0KS2VnoVi0FiF5IPg7ckXowrvtSOuQqkQ==", null, false, "54273769-9fca-4f95-94d5-609f75041676", false, "tarikkataryna1999@gmail.com" });
+
+            migrationBuilder.InsertData(
+                table: "OrderCategories",
+                columns: new[] { "OrderCategoryPK", "OrderCategoryName" },
+                values: new object[,]
+                {
+                    { 1, "First Category" },
+                    { 2, "Second Category" },
+                    { 3, "Third Category" }
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetUserRoles",
                 columns: new[] { "RoleId", "UserId" },
-                values: new object[] { "d66a111e-4d2e-4764-9696-b746109a81b4", "9996f9ca-3d8f-4989-a6b2-d7614cd5417d" });
+                values: new object[] { "1ba68bf3-7f4c-45a6-ab5b-7e9be54e3e47", "e7c5d9a6-2584-4ace-86df-559a8480f978" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -432,6 +448,11 @@ namespace DAL.Migrations
                 column: "OrderPK");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Orders_CategoryOrderCategoryPK",
+                table: "Orders",
+                column: "CategoryOrderCategoryPK");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orders_CustomerPK",
                 table: "Orders",
                 column: "CustomerPK");
@@ -480,9 +501,6 @@ namespace DAL.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "OrderCategories");
-
-            migrationBuilder.DropTable(
                 name: "OrderPayments");
 
             migrationBuilder.DropTable(
@@ -514,6 +532,9 @@ namespace DAL.Migrations
 
             migrationBuilder.DropTable(
                 name: "Customers");
+
+            migrationBuilder.DropTable(
+                name: "OrderCategories");
         }
     }
 }

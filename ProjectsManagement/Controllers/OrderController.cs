@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Common.Models;
 using DAL.Models;
 using Microsoft.AspNetCore.Authorization;
 using Services.Interfaces;
@@ -25,6 +26,18 @@ namespace ProjectsManagement.Controllers
 			return View(res);
 		}
 
+		[HttpPost]
+		public IActionResult CreateOrder(OrderModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var res = _orderService.CreateOrder(model);
+				return res ? Ok(true) : Ok("Server error");
+			}
+
+			return Ok("Please, fill in all field.");
+		}
+
 		[HttpGet]
 		public IActionResult Customers()
 		{
@@ -33,8 +46,15 @@ namespace ProjectsManagement.Controllers
 		}
 
 		[HttpPost]
-		public IActionResult CreateCustomer(Customer customer)
+		public async Task<IActionResult> CreateCustomer(CustomerModel customer)
 		{
+			if (ModelState.IsValid)
+			{
+				var res = await _orderService.CreateCustomer(customer);
+				return res ? Ok(true) : Ok("Server error");
+			}
+
+			return Ok("Please, fill in Customer Name field.");
 
 		}
 	}

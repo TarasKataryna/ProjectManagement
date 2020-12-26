@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    [Migration("20201225102716_Initial")]
-    partial class Initial
+    [Migration("20201226222949_DatabaseGenerated")]
+    partial class DatabaseGenerated
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -43,6 +43,9 @@ namespace DAL.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
+                    b.Property<int?>("CategoryOrderCategoryPK")
+                        .HasColumnType("int");
+
                     b.Property<int?>("CustomerPK")
                         .HasColumnType("int");
 
@@ -56,6 +59,8 @@ namespace DAL.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("OrderPK");
+
+                    b.HasIndex("CategoryOrderCategoryPK");
 
                     b.HasIndex("CustomerPK");
 
@@ -75,6 +80,23 @@ namespace DAL.Migrations
                     b.HasKey("OrderCategoryPK");
 
                     b.ToTable("OrderCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            OrderCategoryPK = 1,
+                            OrderCategoryName = "First Category"
+                        },
+                        new
+                        {
+                            OrderCategoryPK = 2,
+                            OrderCategoryName = "Second Category"
+                        },
+                        new
+                        {
+                            OrderCategoryPK = 3,
+                            OrderCategoryName = "Third Category"
+                        });
                 });
 
             modelBuilder.Entity("DAL.Models.OrderPayment", b =>
@@ -116,6 +138,26 @@ namespace DAL.Migrations
                     b.HasKey("PositionPK");
 
                     b.ToTable("Positions");
+
+                    b.HasData(
+                        new
+                        {
+                            PositionPK = 1,
+                            HourlyPremium = 1.0,
+                            PositionName = "Junior"
+                        },
+                        new
+                        {
+                            PositionPK = 2,
+                            HourlyPremium = 2.0,
+                            PositionName = "Medium"
+                        },
+                        new
+                        {
+                            PositionPK = 3,
+                            HourlyPremium = 3.0,
+                            PositionName = "Senior"
+                        });
                 });
 
             modelBuilder.Entity("DAL.Models.Project", b =>
@@ -162,6 +204,23 @@ namespace DAL.Migrations
                     b.HasKey("ProjectComplexityTypePK");
 
                     b.ToTable("ProjectComplexityTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            ProjectComplexityTypePK = 1,
+                            ProjectComplexityTypeName = "Easy"
+                        },
+                        new
+                        {
+                            ProjectComplexityTypePK = 2,
+                            ProjectComplexityTypeName = "Medium"
+                        },
+                        new
+                        {
+                            ProjectComplexityTypePK = 3,
+                            ProjectComplexityTypeName = "Hard"
+                        });
                 });
 
             modelBuilder.Entity("DAL.Models.ProjectPerformer", b =>
@@ -225,6 +284,26 @@ namespace DAL.Migrations
                     b.HasKey("QualificationPK");
 
                     b.ToTable("Qualifications");
+
+                    b.HasData(
+                        new
+                        {
+                            QualificationPK = 1,
+                            HourlyRate = 5.0,
+                            QualificationName = "First Qualification"
+                        },
+                        new
+                        {
+                            QualificationPK = 2,
+                            HourlyRate = 7.0,
+                            QualificationName = "Second Qualification"
+                        },
+                        new
+                        {
+                            QualificationPK = 3,
+                            HourlyRate = 10.0,
+                            QualificationName = "Third Qualification"
+                        });
                 });
 
             modelBuilder.Entity("DAL.Models.User", b =>
@@ -313,18 +392,19 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9996f9ca-3d8f-4989-a6b2-d7614cd5417d",
+                            Id = "e7c5d9a6-2584-4ace-86df-559a8480f978",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "c4316b18-195d-49cd-8a8c-6ca8591f467d",
+                            ConcurrencyStamp = "39724c57-2ec5-4b72-b45a-ad507b44b9f0",
                             Email = "tarikkataryna1999@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Taras",
                             LastName = "Kataryna",
                             LockoutEnabled = false,
                             Login = "tarikkataryna1999@gmail.com",
-                            PasswordHash = "AQAAAAEAACcQAAAAELckq74cbWGV8J7+9TpkzIV77AVNq7Uk3Jrcr+PLSlPiVm0g9APTjrl+VGvuALIwJA==",
+                            NormalizedUserName = "TARIKKATARYNA1999@GMAIL.COM",
+                            PasswordHash = "AQAAAAEAACcQAAAAEH+oPd3WVH4LRqH9nAc/yXlNODGngrkDDgTDI6d56P2Yy0ihO27ko993JUS77vjxVA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "974efafe-4e25-46bf-86f9-331aa00573c5",
+                            SecurityStamp = "d13cb249-dea4-489a-8e95-06fb4da51093",
                             TwoFactorEnabled = false,
                             UserName = "tarikkataryna1999@gmail.com"
                         });
@@ -359,15 +439,17 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d66a111e-4d2e-4764-9696-b746109a81b4",
-                            ConcurrencyStamp = "e45ead5c-29e8-43bd-bd4e-59fede94ae82",
-                            Name = "Admin"
+                            Id = "1ba68bf3-7f4c-45a6-ab5b-7e9be54e3e47",
+                            ConcurrencyStamp = "fdd41c7d-4879-42d3-a5eb-dc2f28921cd6",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
                         },
                         new
                         {
-                            Id = "3b5a92d3-052a-499c-92a4-f6ef631a8578",
-                            ConcurrencyStamp = "98166429-2e54-4861-9928-c3c55b7c7bfe",
-                            Name = "User"
+                            Id = "2a7f0297-c806-4192-95a4-f3be699c4420",
+                            ConcurrencyStamp = "c066d625-dcfc-4e03-a036-045f336c0dae",
+                            Name = "User",
+                            NormalizedName = "USER"
                         });
                 });
 
@@ -458,8 +540,8 @@ namespace DAL.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "9996f9ca-3d8f-4989-a6b2-d7614cd5417d",
-                            RoleId = "d66a111e-4d2e-4764-9696-b746109a81b4"
+                            UserId = "e7c5d9a6-2584-4ace-86df-559a8480f978",
+                            RoleId = "1ba68bf3-7f4c-45a6-ab5b-7e9be54e3e47"
                         });
                 });
 
@@ -501,9 +583,15 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Models.Order", b =>
                 {
+                    b.HasOne("DAL.Models.OrderCategory", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryOrderCategoryPK");
+
                     b.HasOne("DAL.Models.Customer", "Customer")
                         .WithMany()
                         .HasForeignKey("CustomerPK");
+
+                    b.Navigation("Category");
 
                     b.Navigation("Customer");
                 });

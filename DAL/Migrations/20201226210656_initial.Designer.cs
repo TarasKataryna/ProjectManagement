@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(ProjectDbContext))]
-    [Migration("20201226171643_add_order_category_type")]
-    partial class add_order_category_type
+    [Migration("20201226210656_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -80,6 +80,23 @@ namespace DAL.Migrations
                     b.HasKey("OrderCategoryPK");
 
                     b.ToTable("OrderCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            OrderCategoryPK = 1,
+                            OrderCategoryName = "First Category"
+                        },
+                        new
+                        {
+                            OrderCategoryPK = 2,
+                            OrderCategoryName = "Second Category"
+                        },
+                        new
+                        {
+                            OrderCategoryPK = 3,
+                            OrderCategoryName = "Third Category"
+                        });
                 });
 
             modelBuilder.Entity("DAL.Models.OrderPayment", b =>
@@ -320,7 +337,7 @@ namespace DAL.Migrations
                         {
                             Id = "e7c5d9a6-2584-4ace-86df-559a8480f978",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "77a542b6-183f-43cd-87ea-b68156763e1d",
+                            ConcurrencyStamp = "a50de59b-eb36-4dba-a643-fbd4cf5da871",
                             Email = "tarikkataryna1999@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Taras",
@@ -328,9 +345,9 @@ namespace DAL.Migrations
                             LockoutEnabled = false,
                             Login = "tarikkataryna1999@gmail.com",
                             NormalizedUserName = "TARIKKATARYNA1999@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIjuYGyuj3Qn/H6aXXYTBo5MjVV/TsaJ4xNCoYu0pzB0knyqwc6cFZNKKnOIv3H9+Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKUd9GKe1SPvC/C0MqJrRy0/Zi4is46Hm0KS2VnoVi0FiF5IPg7ckXowrvtSOuQqkQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "260b213f-2bd0-4c57-ad4b-d068a64a2d8b",
+                            SecurityStamp = "54273769-9fca-4f95-94d5-609f75041676",
                             TwoFactorEnabled = false,
                             UserName = "tarikkataryna1999@gmail.com"
                         });

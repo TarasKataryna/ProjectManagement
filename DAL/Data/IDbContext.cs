@@ -20,5 +20,7 @@ namespace DAL.Data
 		 DbSet<ProjectPerformerHistory> ProjectPerformerHistories { get; set; }
 		 DbSet<Qualification> Qualifications { get; set; }
 		 DbSet<User> Users{ get; set; }
+
+		 int SaveChanges();
 	}
 }

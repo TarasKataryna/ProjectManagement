@@ -78,6 +78,23 @@ namespace DAL.Migrations
                     b.HasKey("OrderCategoryPK");
 
                     b.ToTable("OrderCategories");
+
+                    b.HasData(
+                        new
+                        {
+                            OrderCategoryPK = 1,
+                            OrderCategoryName = "First Category"
+                        },
+                        new
+                        {
+                            OrderCategoryPK = 2,
+                            OrderCategoryName = "Second Category"
+                        },
+                        new
+                        {
+                            OrderCategoryPK = 3,
+                            OrderCategoryName = "Third Category"
+                        });
                 });
 
             modelBuilder.Entity("DAL.Models.OrderPayment", b =>
@@ -119,6 +136,26 @@ namespace DAL.Migrations
                     b.HasKey("PositionPK");
 
                     b.ToTable("Positions");
+
+                    b.HasData(
+                        new
+                        {
+                            PositionPK = 1,
+                            HourlyPremium = 1.0,
+                            PositionName = "Junior"
+                        },
+                        new
+                        {
+                            PositionPK = 2,
+                            HourlyPremium = 2.0,
+                            PositionName = "Medium"
+                        },
+                        new
+                        {
+                            PositionPK = 3,
+                            HourlyPremium = 3.0,
+                            PositionName = "Senior"
+                        });
                 });
 
             modelBuilder.Entity("DAL.Models.Project", b =>
@@ -165,6 +202,23 @@ namespace DAL.Migrations
                     b.HasKey("ProjectComplexityTypePK");
 
                     b.ToTable("ProjectComplexityTypes");
+
+                    b.HasData(
+                        new
+                        {
+                            ProjectComplexityTypePK = 1,
+                            ProjectComplexityTypeName = "Easy"
+                        },
+                        new
+                        {
+                            ProjectComplexityTypePK = 2,
+                            ProjectComplexityTypeName = "Medium"
+                        },
+                        new
+                        {
+                            ProjectComplexityTypePK = 3,
+                            ProjectComplexityTypeName = "Hard"
+                        });
                 });
 
             modelBuilder.Entity("DAL.Models.ProjectPerformer", b =>
@@ -228,6 +282,26 @@ namespace DAL.Migrations
                     b.HasKey("QualificationPK");
 
                     b.ToTable("Qualifications");
+
+                    b.HasData(
+                        new
+                        {
+                            QualificationPK = 1,
+                            HourlyRate = 5.0,
+                            QualificationName = "First Qualification"
+                        },
+                        new
+                        {
+                            QualificationPK = 2,
+                            HourlyRate = 7.0,
+                            QualificationName = "Second Qualification"
+                        },
+                        new
+                        {
+                            QualificationPK = 3,
+                            HourlyRate = 10.0,
+                            QualificationName = "Third Qualification"
+                        });
                 });
 
             modelBuilder.Entity("DAL.Models.User", b =>
@@ -318,7 +392,7 @@ namespace DAL.Migrations
                         {
                             Id = "e7c5d9a6-2584-4ace-86df-559a8480f978",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "77a542b6-183f-43cd-87ea-b68156763e1d",
+                            ConcurrencyStamp = "39724c57-2ec5-4b72-b45a-ad507b44b9f0",
                             Email = "tarikkataryna1999@gmail.com",
                             EmailConfirmed = false,
                             FirstName = "Taras",
@@ -326,9 +400,9 @@ namespace DAL.Migrations
                             LockoutEnabled = false,
                             Login = "tarikkataryna1999@gmail.com",
                             NormalizedUserName = "TARIKKATARYNA1999@GMAIL.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIjuYGyuj3Qn/H6aXXYTBo5MjVV/TsaJ4xNCoYu0pzB0knyqwc6cFZNKKnOIv3H9+Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEH+oPd3WVH4LRqH9nAc/yXlNODGngrkDDgTDI6d56P2Yy0ihO27ko993JUS77vjxVA==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "260b213f-2bd0-4c57-ad4b-d068a64a2d8b",
+                            SecurityStamp = "d13cb249-dea4-489a-8e95-06fb4da51093",
                             TwoFactorEnabled = false,
                             UserName = "tarikkataryna1999@gmail.com"
                         });
