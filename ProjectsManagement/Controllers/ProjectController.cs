@@ -22,7 +22,7 @@ namespace ProjectsManagement.Controllers
 		{
 			var result = new List<ProjectModel>();
 
-			if (string.IsNullOrEmpty(userId.Trim()))
+			if (!string.IsNullOrEmpty(userId?.Trim()))
 			{
 				result = _projectService.GetProjectsByUserId(userId).ToList();
 			}
@@ -33,5 +33,45 @@ namespace ProjectsManagement.Controllers
 
 			return View(result);
 		}
+
+		[HttpGet]
+		public IActionResult GetProjectsApi(string userId)
+		{
+			var result = new List<ProjectModel>();
+
+			if (!string.IsNullOrEmpty(userId?.Trim()))
+			{
+				result = _projectService.GetProjectsByUserId(userId).ToList();
+			}
+			else
+			{
+				result = _projectService.GetProjects().ToList();
+			}
+
+			return Ok(result);
+		}
+
+
+		[HttpGet]
+		public IActionResult GetComplexityTypesApi()
+		{
+			var res = _projectService.GetComplexityTypes().ToList();
+			return Ok(res);
+		}
+
+		[HttpPost]
+		public IActionResult CreateProject(ProjectModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var res = _projectService.CreateProject(model);
+				return res ? Ok(true) : Ok("Server error");
+			}
+
+			return Ok("Please, fill in all field.");
+		}
+
+
+
 	}
 }

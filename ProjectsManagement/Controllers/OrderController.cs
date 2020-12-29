@@ -26,6 +26,13 @@ namespace ProjectsManagement.Controllers
 			return View(res);
 		}
 
+		[HttpGet]
+		public IActionResult GetOrdersApi()
+		{
+			var res = _orderService.GetOrders().ToList();
+			return Ok(res);
+		}
+
 		[HttpPost]
 		public IActionResult CreateOrder(OrderModel model)
 		{
@@ -45,6 +52,13 @@ namespace ProjectsManagement.Controllers
 			return View(res);
 		}
 
+		[HttpGet]
+		public IActionResult GetCustomersApi()
+		{
+			var res = _orderService.GetCustomers().ToList();
+			return Ok(res);
+		}
+
 		[HttpPost]
 		public async Task<IActionResult> CreateCustomer(CustomerModel customer)
 		{
@@ -56,6 +70,13 @@ namespace ProjectsManagement.Controllers
 
 			return Ok("Please, fill in Customer Name field.");
 
+		}
+
+		[HttpGet]
+		public IActionResult GetCategoriesApi()
+		{
+			var res = _orderService.GetCategories().ToList();
+			return Ok(res);
 		}
 	}
 }

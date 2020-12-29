@@ -12,14 +12,24 @@
 {
 	<ul class="list-group" style="margin-top: 45px;">
 		@{
+			<li class="list-group-item" style="border: none !important; font-weight: bold">
+				<div class="row">
+					<div style="display: inline-block" class="col-sm-8">
+						<span>Customer Name</span>
+					</div>
+					<div style="display: inline-block" class="col-sm-4">
+						<span>Actions</span>
+					</div>
+				</div>
+			</li>
 			foreach (CustomerModel item in @Model)
 			{
 				<li class="list-group-item">
-					<div style="display: inline !important">
-						<div style="width: 75%; display: inline-block">
+					<div style="display: inline !important" class="row">
+						<div style="display: inline-block" class="col-sm-8">
 							<span>@item.CustomerName</span>
 						</div>
-						<div style="width: 20%; display: inline-block; text-align: center">
+						<div style="display: inline-block; text-align: center" class="col-sm-4">
 							<a class="btn btn-danger">Delete Customer</a>
 						</div>
 					</div>

@@ -5,7 +5,14 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Common.Mappings;
+using Common.Models;
+using DAL.Data;
+using DAL.Models;
+using Microsoft.AspNetCore.Identity;
+using Services.Interfaces;
 
 namespace ProjectsManagement.Controllers
 {
@@ -13,16 +20,35 @@ namespace ProjectsManagement.Controllers
 	{
 		private readonly ILogger<HomeController> _logger;
 
-		public HomeController(ILogger<HomeController> logger)
+		private readonly IUserService _userService;
+
+		private readonly UserManager<User> _userManager;
+
+		private IDbContext _context;
+
+		public HomeController(ILogger<HomeController> logger, IUserService userService, UserManager<User> userManager, IDbContext context)
 		{
 			_logger = logger;
+			_userService = userService;
+			_userManager = userManager;
+			_context = context;
 		}
 
 		public IActionResult Index()
 		{
 			if(User.Identity.IsAuthenticated)
 			{
-				return View();
+				var userPK = User.Claims
+					.First(item => item.Type == ClaimTypes.NameIdentifier).Value.ToString();
+
+				var logs = _userService.GetLogsByUserId(userPK);
+
+				var user = _userManager.Users.FirstOrDefault(u => u.Id == userPK);
+				user.Qualification = _context.Qualifications.FirstOrDefault(item => item.QualificationPK == user.QualificationKey);
+				user.Position = _context.Positions.FirstOrDefault(item => item.PositionPK == user.PositionKey);
+
+
+				return View(new UserLogsObjectModel{User = user.ToUserModel(), Logs = logs.ToList()});
 			}
 			else
 			{

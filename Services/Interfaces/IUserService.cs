@@ -14,5 +14,11 @@ namespace Services.Interfaces
 		IEnumerable<UserModel> GetUsers();
 
 		IEnumerable<LogModel> GetLogsByUserId(string id);
+
+		IEnumerable<LogModel> GetLogsByUserIdAndProject(string id, int projectPK);
+
+		bool AssignUserToProject(string userPK, int projectPK);
+
+		bool LogTime(LogTimeModel model);
 	}
 }

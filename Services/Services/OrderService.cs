@@ -22,20 +22,20 @@ namespace Services.Services
 		public IEnumerable<OrderModel> GetOrders()
 		{
 			var res = from o in _context.Orders
-				join c in _context.Customers on o.Customer.CustomerPK equals c.CustomerPK
-				join cat in _context.OrderCategories on o.Category.OrderCategoryPK equals cat.OrderCategoryPK
-				orderby o.OrderName
-				select new OrderModel
-				{
-					OrderPK = o.OrderPK,
-					OrderName = o.OrderName,
-					CustomerPK = c.CustomerPK,
-					CustomerName = c.CustomerName,
-					CategoryTypePK = cat.OrderCategoryPK,
-					CategoryType = cat.OrderCategoryName,
-					InitialOrderCost = o.InitialOrderCost,
-					MonthlyCost = o.MonthlyCost
-				};
+					  join c in _context.Customers on o.Customer.CustomerPK equals c.CustomerPK
+					  join cat in _context.OrderCategories on o.Category.OrderCategoryPK equals cat.OrderCategoryPK
+					  orderby o.OrderName
+					  select new OrderModel
+					  {
+						  OrderPK = o.OrderPK,
+						  OrderName = o.OrderName,
+						  CustomerPK = c.CustomerPK,
+						  CustomerName = c.CustomerName,
+						  CategoryTypePK = cat.OrderCategoryPK,
+						  CategoryType = cat.OrderCategoryName,
+						  InitialOrderCost = o.InitialOrderCost,
+						  MonthlyCost = o.MonthlyCost
+					  };
 
 			return res;
 		}
@@ -84,6 +84,15 @@ namespace Services.Services
 			_context.SaveChanges();
 
 			return result != null;
+		}
+
+		public IEnumerable<CategoryModel> GetCategories()
+		{
+			return _context.OrderCategories.Select(item => new CategoryModel
+			{
+				OrderCategoryPK = item.OrderCategoryPK,
+				OrderCategoryName = item.OrderCategoryName
+			});
 		}
 	}
 }

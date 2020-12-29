@@ -15,5 +15,7 @@ namespace Services.Interfaces
 		IEnumerable<CustomerModel> GetCustomers();
 
 		Task<bool> CreateCustomer(CustomerModel model);
+
+		IEnumerable<CategoryModel> GetCategories();
 	}
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Common.Models;
 using DAL.Data;
+using DAL.Models;
 using Services.Interfaces;
 
 namespace Services.Services
@@ -59,6 +60,37 @@ namespace Services.Services
 				};
 
 			return res;
+		}
+
+		public IEnumerable<ComplexityType> GetComplexityTypes()
+		{
+			return _context.ProjectComplexityTypes.Select(item => new ComplexityType
+			{
+				ProjectComplexityTypePK = item.ProjectComplexityTypePK,
+				ProjectComplexityTypeName = item.ProjectComplexityTypeName
+			});
+		}
+
+		public bool CreateProject(ProjectModel model)
+		{
+			var complexityType =
+				_context.ProjectComplexityTypes.FirstOrDefault(item =>
+					item.ProjectComplexityTypePK == model.ComplexityTypePK);
+
+			var order = _context.Orders.FirstOrDefault(item => item.OrderPK == model.OrderPK);
+
+			var result = _context.Projects.Add(new Project
+			{
+				Order = order,
+				PlannedDuration = model.PlannedDuration,
+				ProjectComplexityType = complexityType,
+				ProjectName = model.ProjectName,
+				StartDate = model.StartDate
+			});
+
+			_context.SaveChanges();
+
+			return result != null;
 		}
 	}
 }

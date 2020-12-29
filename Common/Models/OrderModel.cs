@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace Common.Models
@@ -8,6 +9,7 @@ namespace Common.Models
 	{
 		public int OrderPK { get; set; }
 
+		[Required]
 		public string OrderName { get; set; }
 
 		public int CustomerPK { get; set; }

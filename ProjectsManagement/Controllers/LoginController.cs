@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Common.Mappings;
 using Common.Models;
+using DAL.Data;
 using DAL.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,11 +20,14 @@ namespace ProjectsManagement.Controllers
 
 		private RoleManager<IdentityRole> _rolesManager;
 
-		public LoginController(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager)
+		private IDbContext _context;
+
+		public LoginController(UserManager<User> userManager, SignInManager<User> signInManager, RoleManager<IdentityRole> roleManager, IDbContext context)
 		{
 			_signInManager = signInManager;
 			_userManager = userManager;
 			_rolesManager = roleManager;
+			_context = context; 
 		}
 
 		[HttpPost]
@@ -34,6 +38,10 @@ namespace ProjectsManagement.Controllers
 			{
 				User user = model.ToUserEntity();
 				user.Id = Guid.NewGuid().ToString();
+
+				user.QualificationKey = 1;
+
+				user.PositionKey = 1;
 
 				result = await _userManager.CreateAsync(user, model.Password);
 

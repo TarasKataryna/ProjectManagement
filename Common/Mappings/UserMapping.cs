@@ -26,7 +26,11 @@ namespace Common.Mappings
 				Login = entity.Login,
 				FirstName = entity.FirstName,
 				LastName = entity.LastName,
-				IsAdmin = entity.IsAdmin
+				IsAdmin = entity.IsAdmin,
+				QualificationName = entity.Qualification?.QualificationName,
+				PositionName = entity.Position?.PositionName,
+				PositionPK = entity.PositionKey,
+				QualificationPK = entity.QualificationKey
 			};
 		}
 

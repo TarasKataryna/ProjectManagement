@@ -35,24 +35,37 @@
 						<li class="nav-item">
 							<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Projects" asp-route-userId="@User.IsInRole("Admin") ? null : @User.Claims.First(item => item.Type == ClaimTypes.NameIdentifier)">Projects</a>
-						</li>
 						@if (User.IsInRole("Admin"))
 						{
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Customers">Customers</a>
+							</li>
 							<li class="nav-item">
 								<a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Orders">Orders</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link text-dark" asp-area="" asp-controller="Order" asp-action="Customers">Customers</a>
+								<a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Projects">Projects</a>
 							</li>
 							<li class="nav-item">
 								<a class="nav-link text-dark" asp-area="" asp-controller="User" asp-action="UsersList">Users</a>
 							</li>
 						}
+						else
+						{
+							<li class="nav-item">
+								<a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Projects" asp-route-userId=@User.Claims.First(item => item.Type == ClaimTypes.NameIdentifier).Value.ToString()>Projects</a>
+							</li>
+						}
 
 						<li class="nav-item ml-auto">
-							<a class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Logout">@User.Identity.Name</a>
+							<div class="dropdown">
+								<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									@User.Identity.Name
+								</button>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+									<a class="dropdown-item" asp-controller="Login" asp-action="Logout">Log Out</a>
+								</div>
+							</div>
 						</li>
 					}
 				</ul>

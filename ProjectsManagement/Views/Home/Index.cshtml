@@ -1,9 +1,87 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using Common.Models
+@{
+	ViewData["Title"] = "Home Page";
 }
 
 <link rel="stylesheet" href="~/css/Login/login.css" />
 
+<div>
+	<div class="row" style="margin-bottom: 100px;">
+		<div class="col-sm-5" style="padding-left: 90px;">
+			<img src="images/1862205.jpg" alt="" class="rounded float-left" style=" height: 200px;" />
+		</div>
+		<div class="col-sm-7">
+			<div>
+				<label style="font-size: 25px; font-weight: bold;">UserName - </label>
+				<span style="font-size: 20px;">@User.Identity.Name</span>
+			</div>
+			<div>
+				<label style="font-size: 20px; font-weight: bold;">First Name - </label>
+				<span style="font-size: 20px;">@(((UserLogsObjectModel)Model).User.FirstName)</span>
+			</div>
+			<div>
+				<label style="font-size: 20px; font-weight: bold;">Last Name - </label>
+				<span style="font-size: 20px;">@(((UserLogsObjectModel)Model).User.LastName)</span>
+			</div>
+			<div>
+				<label style="font-size: 20px; font-weight: bold;">Position - </label>
+				<span style="font-size: 20px;">@(string.IsNullOrEmpty(((UserLogsObjectModel)Model).User.PositionName) ? "Admin" : ((UserLogsObjectModel)Model).User.PositionName)</span>
+			</div>
+			<div>
+				<label style="font-size: 20px; font-weight: bold;">Qualification - </label>
+				<span style="font-size: 20px;">@(string.IsNullOrEmpty(((UserLogsObjectModel)Model).User.QualificationName) ? "Admin" : ((UserLogsObjectModel)Model).User.QualificationName)</span>
+			</div>
+		</div>
+	</div>
+	<div>
+		<div>
+			<h4>My logs</h4>
+		</div>
+		@if (@Model.Logs?.Count > 0)
+		{
+			<ul class="list-group" style="margin-top: 45px;">
+				@{
+					<li class="list-group-item" style="border: none !important; font-weight: bold">
+						<div class="row">
+							<div style="display: inline-block" class="col-sm-5">
+								<span>Project Name</span>
+							</div>
+							<div style="display: inline-block" class="col-sm-3">
+								<span>Work Date</span>
+							</div>
+							<div style="display: inline-block" class="col-sm-3">
+								<span>Spent Hours</span>
+							</div>
+						</div>
+					</li>
+					foreach (LogModel item in @Model.Logs)
+					{
+						<li class="list-group-item">
+							<div style="display: inline !important" class="row">
+								<div style="display: inline-block" class="col-sm-5">
+									<span>@item.ProjectName</span>
+								</div>
+								<div style="display: inline-block" class="col-sm-3">
+									<span>@item.WorkDay.Date</span>
+								</div>
+								<div style="display: inline-block" class="col-sm-3">
+									<span>@item.SpentHours</span>
+								</div>
+							</div>
+						</li>
+					}
+				}
+			</ul>
+		}
+		else
+		{
+			<div style="margin-top: 50px; text-align: center">
+				<h2>There is no logs for this User</h2>
+			</div>
+		}
+	</div>
+
+</div>
 
 @section Scripts{
 	<script src="~/js/knockout-3.5.1.js"></script>

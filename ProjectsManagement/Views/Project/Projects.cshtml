@@ -1,4 +1,5 @@
 ﻿@using Common.Models
+@using System.Security.Claims
 @{
 	ViewData["Title"] = "Projects";
 }
@@ -6,44 +7,82 @@
 @if (User.IsInRole("Admin"))
 {
 	<div>
-		<button class="btn btn-primary" >Add project</button>
+		<button class="btn btn-primary" data-bind="click: showCreatePopup">Add project</button>
 	</div>
 }
 @if (@Model.Count > 0)
 {
-	<ul class="list-group">
-		@{
+	<ul class="list-group" style="margin-top: 45px;">
+		@if (@User.IsInRole("Admin"))
+		{
+			<li class="list-group-item" style="border: none !important; font-weight: bold">
+				<div class="row">
+					<div style="display: inline-block" class="col-sm-3">
+						<span>Project Name</span>
+					</div>
+					<div style="display: inline-block" class="col-sm-3">
+						<span>Complexity Type</span>
+					</div>
+					<div style="display: inline-block" class="col-sm-3">
+						<span>Planned Duration</span>
+					</div>
+					<div style="display: inline-block" class="col-sm-3">
+						<span>Order Name</span>
+					</div>
+				</div>
+			</li>
 			foreach (ProjectModel item in @Model)
 			{
 				<li class="list-group-item">
-					<div style="display: inline !important">
-						@if (@User.IsInRole("Admin"))
-						{
-							<div style="width: 25%; display: inline-block">
-								<span>@item.ProjectName</span>
-							</div>
-							<div style="width: 25%; display: inline-block">
-								<span>@item.ProjectComplexityType</span>
-							</div>
-							<div style="width: 25%; display: inline-block">
-								<span>@item.PlannedDuration</span>
-							</div>
-							<div style="width: 25%; display: inline-block">
-								<span>@item.OrderName</span>
-							</div>
-						}
-						else
-						{
-							<div style="width: 40%; display: inline-block">
-								<span>@item.ProjectName</span>
-							</div>
-							<div style="width:30%; display: inline-block">
-								<span>@item.ProjectComplexityType</span>
-							</div>
-							<div style="width: 25%; display: inline-block">
-								<a class="btn btn-primary">Log Time</a>
-							</div>
-						}
+					<div style="display: inline !important" class="row" project-id="@item.ProjectPK">
+
+						<div style="display: inline-block" class="col-sm-3">
+							<span>@item.ProjectName</span>
+						</div>
+						<div style="display: inline-block" class="col-sm-3">
+							<span>@item.ProjectComplexityType</span>
+						</div>
+						<div style="display: inline-block" class="col-sm-3">
+							<span>@item.PlannedDuration</span>
+						</div>
+						<div style="display: inline-block" class="col-sm-3">
+							<span>@item.OrderName</span>
+						</div>
+					</div>
+				</li>
+			}
+		}
+		else
+		{
+			<li class="list-group-item" style="border: none !important; font-weight: bold">
+				<div class="row">
+					<div style="display: inline-block" class="col-sm-5">
+						<span>Project Name</span>
+					</div>
+					<div style="display: inline-block" class="col-sm-4">
+						<span>Complexity Type</span>
+					</div>
+					<div style="display: inline-block" class="col-sm-3">
+						<span>Actions</span>
+					</div>
+				</div>
+			</li>
+			foreach (ProjectModel item in @Model)
+			{
+				<li class="list-group-item">
+					<div style="display: inline !important" class="row" project-id="@item.ProjectPK">
+						<div style="display: inline-block" class="col-sm-5">
+							<span>@item.ProjectName</span>
+						</div>
+						<div style="display: inline-block" class="col-sm-4">
+							<span>@item.ProjectComplexityType</span>
+						</div>
+						<div style="display: inline-block" class="col-sm-3">
+							<button class="btn btn-primary" data-bind="click: openLogTimePopup">Log Time</button>
+							<a class="btn btn-secondary" asp-controller="User" asp-action="UserLogsByProject" 
+							   asp-route-userId=@User.Claims.First(item => item.Type == ClaimTypes.NameIdentifier).Value.ToString()
+							   asp-route-projectPK=@item.ProjectPK>See Logs</a>
+						</div>
 					</div>
 				</li>
 			}
@@ -55,4 +94,121 @@ else
 	<div style="margin-top: 50px; text-align: center ">
 		<h2>There are no projects yet.</h2>
 	</div>
+}
+
+@if (User.IsInRole("Admin"))
+{
+	<div class="modal fade" tabindex="-1" role="dialog" id="project-modal">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title">Create Project</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<form>
+						<div class="form-group row">
+							<label for="project-name" class="col-sm-4 col-form-label">Project Name</label>
+							<div class="col-sm-8">
+								<input type="text" class="form-control" id="project-name" placeholder="Project Name" data-bind="value: projectName">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="order" class="col-sm-4 col-form-label">Order</label>
+							<div class="col-sm-8" style="padding-right: 15px; padding-left: 15px;">
+								<select class="custom-select" id="order" data-bind="foreach: orders">
+									<option data-bind="value: orderPK, text: orderName"></option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="complexity" class="col-sm-4 col-form-label">Complexity</label>
+							<div class="col-sm-8" style="padding-right: 15px; padding-left: 15px;">
+								<select class="custom-select" id="complexity" data-bind="foreach: complexityTypes">
+									<option data-bind="value: projectComplexityTypePK, text: projectComplexityTypeName"></option>
+								</select>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="planned-duration" class="col-sm-4 col-form-label">Planned duration</label>
+							<div class="col-sm-8">
+								<input type="number" class="form-control" id="planned-duration" placeholder="Planned Duration" data-bind="value: plannedDuration">
+							</div>
+						</div>
+						<div class="form-group row">
+							<label for="start-date" class="col-sm-4 col-form-label">Start Date</label>
+							<div class="col-sm-8">
+								<input type="date" class="form-control" id="start-date" placeholder="Start Date" data-bind="value: startDate">
+							</div>
+						</div>
+					</form>
+
+					<!-- ko if: showValidationErrors() -->
+					<div style="text-align: center; color: firebrick;">
+						<span data-bind="text: validationMessage"></span>
+					</div>
+					<!-- /ko -->
+
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-primary" data-bind="click: createProject">Save Order</button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+<div class="modal fade" tabindex="-1" role="dialog" id="logtime-modal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Log Time</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<form>
+					<div class="form-group row">
+						<label for="work-day" class="col-sm-4 col-form-label">Work Day</label>
+						<div class="col-sm-8">
+							<input type="date" class="form-control" id="work-day" placeholder="Work Day" data-bind="value: workDay">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label for="log-time" class="col-sm-4 col-form-label">Log Time</label>
+						<div class="col-sm-8">
+							<input type="number" class="form-control" id="log-time" placeholder="Log Time" data-bind="value: logTime">
+						</div>
+					</div>
+				</form>
+
+				<!-- ko if: showValidationErrors() -->
+				<div style="text-align: center; color: firebrick;">
+					<span data-bind="text: validationMessage"></span>
+				</div>
+				<!-- /ko -->
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-primary" data-bind="click: processLogTime">Save Order</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+@section Scripts{
+	<script src="~/js/knockout-3.5.1.js"></script>
+	<script src="~/js/Project/project.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			viewModel.userPK = '@User.Claims.First(item => item.Type == ClaimTypes.NameIdentifier).Value.ToString()';
+		});
+
+	</script>
 }

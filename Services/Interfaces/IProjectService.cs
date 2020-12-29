@@ -10,5 +10,9 @@ namespace Services.Interfaces
 		IEnumerable<ProjectModel> GetProjects();
 
 		IEnumerable<ProjectModel> GetProjectsByUserId(string userId);
+
+		bool CreateProject(ProjectModel model);
+
+		IEnumerable<ComplexityType> GetComplexityTypes();
 	}
 }
